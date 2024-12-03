@@ -133,10 +133,7 @@ const FilterBar: React.FC = () => {
               <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">
                 {selectedGroup} <button
               className="text-blue-600 hover:text-blue-800"
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePeopleSelect(filter);
-              }}
+              
             >
               ✕
             </button>
@@ -146,10 +143,7 @@ const FilterBar: React.FC = () => {
               <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">
                 {selectedUser}  <button
               className="text-blue-600 hover:text-blue-800"
-              onClick={(e) => {
-                e.stopPropagation();
-                handlePeopleSelect(filter);
-              }}
+              
             >
               ✕
             </button>
