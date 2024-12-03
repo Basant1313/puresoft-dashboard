@@ -9,7 +9,7 @@ const Sidebar: React.FC = () => {
     <>
       {/* Sidebar (Fixed) */}
       <div
-        className={`h-full w-64 bg-white border-r shadow-md flex flex-col sticky top-0 left-0 transform ${
+        className={`h-full w-64 bg-white border-r shadow-md flex flex-col fixed top-0 left-0 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-50`}
       >
@@ -33,6 +33,19 @@ const Sidebar: React.FC = () => {
           <h2 className="px-6 text-sm font-semibold text-gray-500">Support</h2>
           <MenuItem label="Get Started" icon={<IconGetStarted />} />
           <MenuItem label="Settings" icon={<IconSettings />} />
+        </div>
+
+        {/* Bottom Section */}
+        <div className="mt-auto border-t p-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold">A</span> {/* Placeholder for an avatar */}
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-900">John Doe</p>
+              <p className="text-xs text-gray-500">johndoe@example.com</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -111,6 +124,7 @@ const IconClose = () => (
   </svg>
 );
 
+// Placeholder Icons
 // Existing Icons
 const IconReports = () => ( <svg fill="currentColor" className="w-6 h-6" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 192.287 192.287" ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M122.901,0H19.699v192.287h152.889v-142.6L122.901,0z M146.981,45.299h-19.686V25.612L146.981,45.299z M34.699,177.287V15 h77.596v37.799c0,4.142,3.357,7.5,7.5,7.5h37.793v116.988H34.699z"></path> <rect x="53.141" y="149.004" width="86.006" height="10"></rect> <rect x="53.141" y="55.101" width="51.058" height="10"></rect> <polygon points="121.248,86.935 126.79,86.935 105.371,108.353 88.623,91.605 51.597,128.634 58.667,135.706 88.623,105.748 105.371,122.495 133.861,94.005 133.861,99.535 143.861,99.535 143.861,76.935 121.248,76.935 "></polygon> <rect x="53.141" y="33.283" width="51.058" height="10"></rect> </g> </g></svg>
  

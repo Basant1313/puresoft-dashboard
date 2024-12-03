@@ -22,7 +22,10 @@ const FilterBar: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState("This Month");
 
   const [isPeopleDropdownOpen, setIsPeopleDropdownOpen] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  const [selectedUser, setSelectedUser] = useState<string | null>(null);
+
+  
 
   const [isTopicOpen, setIsTopicOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState("All Topics");
@@ -40,16 +43,17 @@ const FilterBar: React.FC = () => {
     setIsPeopleDropdownOpen(!isPeopleDropdownOpen);
   };
 
-  const handlePeopleSelect = (filter: string) => {
-    setSelectedFilters((prev) =>
-      prev.includes(filter)
-        ? prev.filter((f) => f !== filter)
-        : [...prev, filter]
-    );
+  const handleGroupSelect = (group: string) => {
+    setSelectedGroup(group);
+  };
+
+  const handleUserSelect = (user: string) => {
+    setSelectedUser(user);
   };
 
   const clearPeopleFilters = () => {
-    setSelectedFilters([]);
+    setSelectedGroup(null);
+    setSelectedUser(null);
   };
 
   const toggleTopicDropdown = () => {
@@ -102,27 +106,19 @@ const FilterBar: React.FC = () => {
         >
           <span className="text-gray-600 font-medium mr-2">People:</span>
           <div className="flex flex-wrap gap-2">
-            {selectedFilters.length > 0 ? (
-              selectedFilters.map((filter, index) => (
-                <span
-                  key={index}
-                  className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-2"
-                >
-                  {filter}
-                  <button
-                    className="text-blue-600 hover:text-blue-800"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handlePeopleSelect(filter);
-                    }}
-                  >
-                    ✕
-                  </button>
-                </span>
-              ))
-            ) : (
-              <span className="text-gray-500">Select</span>
+            {/* {selectedGroup && (
+              <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">
+                {selectedGroup}
+              </span>
             )}
+            {selectedUser && (
+              <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">
+                {selectedUser}
+              </span>
+            )}
+            {!selectedGroup && !selectedUser && (
+              <span className="text-gray-500">Select</span>
+            )} */}
           </div>
         </div>
 
@@ -131,12 +127,40 @@ const FilterBar: React.FC = () => {
             <div className="p-4">
               <div className="flex justify-between items-center">
                 <span className="text-gray-600 font-medium text-sm">
-                  People:{" "}
-                  {selectedFilters.length > 0
-                    ? "Multiple Selected"
-                    : "Select a filter"}
+                  People Filters :
+                  <div className="flex flex-wrap gap-2">
+            {selectedGroup && (
+              <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">
+                {selectedGroup} <button
+              className="text-blue-600 hover:text-blue-800"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePeopleSelect(filter);
+              }}
+            >
+              ✕
+            </button>
+              </span>
+            )}
+            {selectedUser && (
+              <span className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs font-medium">
+                {selectedUser}  <button
+              className="text-blue-600 hover:text-blue-800"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePeopleSelect(filter);
+              }}
+            >
+              ✕
+            </button>
+              </span>
+            )}
+            {!selectedGroup && !selectedUser && (
+              <span className="text-gray-500">Select</span>
+            )}
+          </div>
                 </span>
-                {selectedFilters.length > 0 && (
+                {(selectedGroup || selectedUser) && (
                   <button
                     className="text-blue-600 font-medium text-sm"
                     onClick={(e) => {
@@ -144,43 +168,61 @@ const FilterBar: React.FC = () => {
                       clearPeopleFilters();
                     }}
                   >
-                    Clear
+                  clear
                   </button>
                 )}
               </div>
               <input
-                type="text"
-                placeholder="Search"
-                className="mt-2 w-full border border-gray-300 rounded-md p-2 text-sm"
-              />
+          type="text"
+          placeholder="Search"
+          className="mt-2 w-full border border-gray-300 rounded-md p-2 text-sm"
+        />
             </div>
+
+            {/* Groups Section */}
             <div className="border-t px-4 py-2">
-              <p className="text-xs text-gray-400 font-medium uppercase">
-                Groups
-              </p>
+              <p className="text-xs text-gray-400 font-medium uppercase">Groups</p>
               {groups.map((group, index) => (
-                <div
+                <label
                   key={index}
                   className="flex items-center justify-between py-2 cursor-pointer"
-                  onClick={() => handlePeopleSelect(group.name)}
                 >
-                  <span className="text-gray-800 font-medium">{group.name}</span>
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="radio"
+                      name="group"
+                      value={group.name}
+                      checked={selectedGroup === group.name}
+                      onChange={() => handleGroupSelect(group.name)}
+                      className="form-radio text-blue-600"
+                    />
+                    <span className="text-gray-800 font-medium">{group.name}</span>
+                  </div>
                   <span className="text-gray-500 text-sm">{group.count}</span>
-                </div>
+                </label>
               ))}
             </div>
+
+            {/* Users Section */}
             <div className="border-t px-4 py-2">
-              <p className="text-xs text-gray-400 font-medium uppercase">
-                Users
-              </p>
+              <p className="text-xs text-gray-400 font-medium uppercase">Users</p>
               {users.map((user, index) => (
-                <div
+                <label
                   key={index}
                   className="flex items-center justify-between py-2 cursor-pointer"
-                  onClick={() => handlePeopleSelect(user.name)}
                 >
-                  <span className="text-gray-800 font-medium">{user.name}</span>
-                </div>
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="radio"
+                      name="user"
+                      value={user.name}
+                      checked={selectedUser === user.name}
+                      onChange={() => handleUserSelect(user.name)}
+                      className="form-radio text-blue-600"
+                    />
+                    <span className="text-gray-800 font-medium">{user.name}</span>
+                  </div>
+                </label>
               ))}
             </div>
           </div>
